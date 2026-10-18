@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+*.key
+*.pem
+*.p12
+*.jks
+.secrets/
+*.log
+*.zip
+*.tar.gz
+.DS_Store
+*.bak
+.idea/
+.vscode/

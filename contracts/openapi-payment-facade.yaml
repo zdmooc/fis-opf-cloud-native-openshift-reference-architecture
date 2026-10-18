@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Synthetic Payments Orchestration Facade (NOT FIS OPF)
+  version: 0.1.0
+  description: Demonstration only. Not a real payment service or vendor API.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Health (laboratory only)
+      responses:
+        '200': {description: OK}
+  /demo/v1/payments:
+    post:
+      summary: Create synthetic non-financial instruction
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 128}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/Instruction'}
+      responses:
+        '202':
+          description: Synthetic instruction accepted (NOT SETTLED)
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Receipt'}
+        '409': {description: Reused key with different payload}
+        '400': {description: Invalid data}
+  /demo/v1/payments/{paymentId}:
+    get:
+      summary: Read synthetic status
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        '200':
+          description: Synthetic status
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Receipt'}
+        '404': {description: Unknown synthetic reference}
+components:
+  schemas:
+    Instruction:
+      type: object
+      required: [reference, amountMinor, currency]
+      properties:
+        reference: {type: string, maxLength: 80}
+        amountMinor: {type: integer, minimum: 1}
+        currency: {type: string, enum: [EUR]}
+    Receipt:
+      type: object
+      required: [paymentId, status]
+      properties:
+        paymentId: {type: string}
+        status: {type: string, enum: [ACCEPTED_SYNTHETIC]}
+        simulated: {type: boolean, enum: [true]}

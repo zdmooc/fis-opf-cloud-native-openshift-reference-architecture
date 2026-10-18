@@ -1,0 +1,12 @@
+flowchart LR
+ CH[Canaux et partenaires] --> INIT[Acquisition ordres]
+ INIT --> CTRL[Validation / conformité / fraude]
+ CTRL --> ROUTE[Orchestration POM]
+ ROUTE --> INST[Instantané]
+ ROUTE --> BATCH[ACH / Bulk]
+ ROUTE --> WIRE[International / Haute valeur]
+ INST --> CORE[Core Banking]
+ BATCH --> CORE
+ WIRE --> CORE
+ ROUTE --> STATUS[Statuts et supervision]
+ STATUS --> REC[Réconciliation et audit]

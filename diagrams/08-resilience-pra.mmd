@@ -1,0 +1,11 @@
+flowchart TD
+ FAIL[Incident critique] --> STOP[Limiter nouvelles admissions]
+ STOP --> SNAP[Conserver preuves + offsets + états]
+ SNAP --> DATA[Évaluer cohérence données et broker]
+ DATA --> DR[Restaurer site/runtime selon PRA]
+ DR --> RECON[Réconcilier statuts Core + Rail]
+ RECON --> DEC{Tous états expliqués ?}
+ DEC -->|Non| MAN[Quarantaine + traitement manuel]
+ MAN --> RECON
+ DEC -->|Oui| OPEN[Réouverture progressive]
+ OPEN --> REPORT[Bilan RTO/RPO et risques]

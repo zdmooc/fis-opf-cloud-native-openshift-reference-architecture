@@ -1,0 +1,19 @@
+asyncapi: '2.6.0'
+info:
+  title: Synthetic Payment Status Events (NOT FIS OPF)
+  version: '0.1.0'
+  description: Illustrative only, never connect to real banking systems.
+channels:
+  lab.payment-status.v1:
+    description: Hypothetical demo topic name, not vendor namespace.
+    subscribe:
+      message:
+        payload:
+          type: object
+          required: [eventId, occurredAt, paymentId, status, simulated]
+          properties:
+            eventId: {type: string}
+            occurredAt: {type: string, format: date-time}
+            paymentId: {type: string}
+            status: {type: string, enum: [ACCEPTED_SYNTHETIC]}
+            simulated: {type: boolean, enum: [true]}

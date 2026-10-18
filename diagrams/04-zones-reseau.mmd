@@ -1,0 +1,33 @@
+flowchart TB
+ subgraph Z0[Z0 Canaux]
+  USER[Partenaires / canaux]
+ end
+ subgraph Z1[Z1 Edge]
+  WAF[WAF + API Gateway + IAM]
+ end
+ subgraph Z2[Z2 Paiements OpenShift]
+  POM[POM / moteurs / adapters]
+ end
+ subgraph Z3[Z3 Integration]
+  BUS[Broker / MFT / gateways]
+ end
+ subgraph Z4[Z4 Données sensibles]
+  DB[(Base transactionnelle)]
+  KMS[Coffre / PKI / HSM si requis]
+ end
+ subgraph Z5[Z5 Réseaux métiers tiers]
+  CORE[Core / mainframe]
+  RAIL[Rails externes]
+ end
+ subgraph Z6[Z6 Gestion]
+  CD[GitOps + CI/CD]
+  OBS[Metrics logs SIEM]
+ end
+ USER --> WAF --> POM
+ POM <--> BUS
+ POM <--> DB
+ POM --> KMS
+ BUS <--> CORE
+ BUS <--> RAIL
+ POM --> OBS
+ CD --> POM

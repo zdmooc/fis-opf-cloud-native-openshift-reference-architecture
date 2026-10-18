@@ -1,0 +1,11 @@
+flowchart TB
+ REQ[Ordre accepté] --> OUTBOX[Outbox transactionnelle - pattern proposé]
+ REQ --> STATE[(State store durable)]
+ OUTBOX --> BR[Publication d'événement]
+ BR --> INBOX[Inbox / déduplication]
+ INBOX --> EXEC[Adaptation à l'exécution]
+ EXEC --> RAIL[Rail de paiement]
+ RAIL --> ACK[Preuve/accusé]
+ ACK --> STATE
+ STATE --> RECON[Reconciliation]
+ RECON --> INCIDENT[Exceptions et litiges]

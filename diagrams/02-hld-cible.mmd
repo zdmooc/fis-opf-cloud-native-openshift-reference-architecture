@@ -1,0 +1,20 @@
+flowchart TB
+ CLIENT[Canaux / entreprises / API clients] --> EDGE[API management / WAF / IAM]
+ FILE[Entrée MFT] --> VALID[Fichier contrôlé]
+ subgraph OCP[OpenShift : zone applicative - PROPOSITION]
+  EDGE --> POM[POM logique - images FIS non fournies]
+  VALID --> POM
+  POM --> INST[Exécution instantanée]
+  POM --> ACH[Exécution masse]
+  POM --> X[Exécution internationale]
+  POM <--> ADAPT[Utility / CBIS adapters]
+  OPS[Operations Visibility] --> POM
+ end
+ ADAPT <--> CORE[Core banking / Mainframe / GL]
+ ADAPT <--> SCREEN[Anti-fraude AML FX]
+ INST <--> R1[Rail temps réel]
+ ACH <--> R2[Clearing / SCT / SDD]
+ X <--> R3[SWIFT / RTGS]
+ OCP <--> DB[(Données transactionnelles externes)]
+ OCP <--> MQ[Messaging / Events contrôlés]
+ OCP --> SRE[Observabilité / SIEM]

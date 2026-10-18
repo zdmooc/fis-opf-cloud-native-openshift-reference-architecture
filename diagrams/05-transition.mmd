@@ -1,0 +1,9 @@
+flowchart LR
+ LEG[Legacy paiement sur VM / mainframe] --> FACADE[Façade stable API/MQ]
+ NEW[Hub OPF cloud-native - si supporté] --> FACADE
+ FACADE --> SWITCH{Sélection unique de destination}
+ SWITCH -->|Cohorte ancienne| LEG2[Exécuteur ancien]
+ SWITCH -->|Cohorte migrée| NEW2[Exécuteur cible]
+ LEG2 --> REC[Rapprochement unifié]
+ NEW2 --> REC
+ REC --> AUDIT[Audit et décision de ramp-up]

@@ -1,0 +1,9 @@
+flowchart LR
+ G[Commit validé] --> QA[Tests + revue]
+ QA --> SEC[SBOM + scan + signature]
+ SEC --> REG[Registry privé et digests]
+ REG --> CD[GitOps Argo CD]
+ CD --> PRE[Preproduction]
+ PRE --> GATE[Architecture / Risque / Sécurité / Métier]
+ GATE --> PROD[Production]
+ PROD --> OBS[Observabilité et bilan]

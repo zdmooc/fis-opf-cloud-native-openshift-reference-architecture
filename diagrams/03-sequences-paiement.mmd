@@ -1,0 +1,27 @@
+sequenceDiagram
+ autonumber
+ participant Canal
+ participant API
+ participant Hub as Paiement / orchestration
+ participant DB as Etat durable
+ participant Rail
+ participant Recon as Réconciliation
+ Canal->>API: POST instruction + idempotencyKey
+ API->>Hub: Requête contrôlée
+ Hub->>DB: Persiste demande acceptée et corrélation
+ DB-->>Hub: Commit
+ Hub-->>API: Référence et état non-final
+ Hub->>Rail: Émission selon contrat idempotent
+ Note over Hub,Rail: Le chemin exact FIS n'est pas public
+ alt rail confirme
+   Rail-->>Hub: Confirmation fiable
+   Hub->>DB: Statut SETTLED sur preuve
+   Hub-->>API: Statut disponible
+ else timeout ou crash
+   Note over Hub,Rail: Ne jamais dupliquer aveuglément le mouvement
+   Hub->>DB: UNKNOWN / en investigation
+   Recon->>Rail: interrogation / rapprochement
+   Rail-->>Recon: statut de référence
+   Recon->>DB: Mise à jour justifiée
+ end
+ API-->>Canal: consultation d'état par référence

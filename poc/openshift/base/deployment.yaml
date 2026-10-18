@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opf-synthetic-lab
+  labels: {app: opf-synthetic-lab, purpose: demonstration-not-fis}
+spec:
+  replicas: 1  # In-memory mock cannot preserve idempotency across replicas
+  selector: {matchLabels: {app: opf-synthetic-lab}}
+  template:
+    metadata: {labels: {app: opf-synthetic-lab}}
+    spec:
+      serviceAccountName: opf-synthetic-lab
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 45
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: demo-api
+          image: example.invalid/opf-synthetic-lab:REPLACE-WITH-PRIVATE-DIGEST
+          imagePullPolicy: IfNotPresent
+          ports: [{name: http, containerPort: 8080}]
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 250m, memory: 256Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+            runAsNonRoot: true
+          startupProbe:
+            httpGet: {path: /health, port: http}
+            failureThreshold: 12
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: {path: /ready, port: http}
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            periodSeconds: 15
