@@ -3,7 +3,8 @@ on:
   push:
     branches: [main]
     paths:
-      - '.payload/snapshot.xz'
+      - '.payload/**'
+      - '.github/workflows/restore-snapshot.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -33,6 +34,7 @@ jobs:
               out.write_bytes(records[i+1])
           print("Restored", len(records)//2, "files")
           PY
+          rm -f .github/workflows/quality.yml
           rm -rf .payload
           git add -A
           if ! git diff --cached --quiet; then
