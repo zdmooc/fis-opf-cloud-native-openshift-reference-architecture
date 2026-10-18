@@ -1,0 +1,43 @@
+name: Import FIS OPF reference architecture
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.payload/snapshot.xz'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore documented architecture
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import lzma
+          root=Path.cwd().resolve()
+          raw=lzma.decompress(Path(".payload/snapshot.xz").read_bytes())
+          records=raw.split(b"\0")
+          if len(records) != 140:
+              raise RuntimeError("Unexpected snapshot record count")
+          for i in range(0,len(records),2):
+              rel=Path(records[i].decode("utf-8"))
+              if rel.is_absolute() or ".." in rel.parts:
+                  raise RuntimeError("Unsafe archive path")
+              out=(root/rel).resolve()
+              out.relative_to(root)
+              out.parent.mkdir(parents=True,exist_ok=True)
+              out.write_bytes(records[i+1])
+          print("Restored", len(records)//2, "files")
+          PY
+          rm -rf .payload
+          git add -A
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "docs: publish complete FIS OPF architecture reference"
+            git push origin HEAD:main
+          fi

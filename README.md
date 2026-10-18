@@ -1,3 +1,3 @@
-# FIS OPF Cloud-Native OpenShift Reference Architecture
+# FIS OPF Reference Architecture
 
-Documentation en cours d'importation.
+Import automatisé de l'étude complète en cours.
