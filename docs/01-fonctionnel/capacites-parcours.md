@@ -1,27 +1,10 @@
-# Cartographie métier / fonctionnelle du Payments Hub
+# FIS OPF — scénarios fonctionnels utiles aux tests de modernisation
 
-## Carte des capacités L0
+La **carte des capacités, les rôles bancaires et les règles métier paiement** sont désormais maintenus exclusivement dans le [référentiel métier — capabilities](https://github.com/zdmooc/banking-payments-business-architecture/blob/main/04-capacites-metier/CAPABILITY_MAP.md) et la [carte des acteurs](https://github.com/zdmooc/banking-payments-business-architecture/blob/main/03-ecosysteme/ACTEURS_RESPONSABILITES.md).
 
-| Capacité | Sous-capacités | Données clés | KPI métier |
-|---|---|---|---|
-| Acquisition | API, fichiers, événements, canaux | Ordre, origine, empreinte | taux d'acceptation, distribution |
-| Contrôle | format, schéma, sanctions, fraude, limites | évaluation, résultat, motif | taux STP, faux positifs |
-| Orchestration | décision de rail, timers, états, exception | instruction, corrélation, décision | délai médian/P99, backlog |
-| Exécution | instantané, lots/ACH, international/RTGS | message rail, statut, règlement | délai de confirmation, erreurs |
-| Tenue de compte | réservation/débit/crédit/écritures | compte, mouvement, référence | écarts de balance |
-| Supervision métier | OVA/portail exploitation, SLA, pistes d'audit | état, événement, acteur | en attente, rejets, délais |
-| Compensation/réconciliation | rapprochement, anomalies, réparation | relevé, montant, numéro | écart non rapproché |
-| Pilotage produit | règle tarifaire, limite, échéance, version | paramétrage, rulebook | changements sans défaut |
+Ce document garde les **scénarios de test et de transformation FIS OPF / OpenShift**, propres à la conception de solution. Ce sont des exigences hypothétiques, **pas des fonctionnalités attestées d'un module FIS**. L'ordre, les messages et délais schemes proviennent du canon et des rulebooks vérifiés.
 
-## Cartographie des acteurs
-
-- **Débiteur / entreprise / partenaire** : initie un ordre et reçoit un accusé.
-- **Canal + IAM** : authentifie, autorise, remet une preuve de consentement si requise.
-- **Hub OPF** : consolide et coordonne des responsabilités métier, selon modules présents.
-- **Core banking** : exécute les changements de tenue de compte selon contrat.
-- **Infrastructure de clearing / SWIFT / RTGS** : apporte statuts et confirmations.
-- **Compliance / fraude** : contrôle des risques et décisions.
-- **Opérateur** : instruit une anomalie avec double contrôle lorsque requis.
+[Version intégrale historique des parties métier et techniques](https://github.com/zdmooc/fis-opf-cloud-native-openshift-reference-architecture/blob/f9284818cf8dfc712dc759b500b9eadec73fc68f/docs/01-fonctionnel/capacites-parcours.md).
 
 ## Parcours représentatifs à documenter de bout en bout
 
