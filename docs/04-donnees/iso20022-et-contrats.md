@@ -1,11 +1,10 @@
-# ISO 20022, profils de place, normes et contrats
+# Contrats ISO 20022 / OPF — adaptation, validation, versions
 
-## Catégories de messages (indicatives)
+Le **catalogue et la sémantique métier des messages** `pain`, `pacs`, `camt`, les statuts, les correspondances, la corrélation et la preuve de règlement sont définis dans le [référentiel canonique ISO 20022](https://github.com/zdmooc/banking-payments-business-architecture/blob/main/11-iso20022/MATRICE_MESSAGES.md) et les [contrats de mapping métier](https://github.com/zdmooc/banking-payments-business-architecture/blob/main/11-iso20022/CONTRATS_MAPPING_ET_STATUTS.md).
 
-- **pain.001** : initiation client du virement ; **pain.002** : retour de statut à l'initiateur, selon canal.
-- **pacs.008** : transfert de crédit interbancaire ; **pacs.002** : réponse/statut interbancaire ; **pacs.004** : retour de paiement ; **pacs.009** : transfert entre institutions financières.
-- **camt.052/053/054** : rapports et notifications de cash management ; **camt.056** : demande d'annulation/rappel dans des scénarios spécifiques.
-- Les versions/sous-ensembles admis **dépendent** de SCT/SCT Inst, CBPR+, du rail, de la date d'effet et du schéma de place.
+Ce document FIS OPF/OpenShift conserve les exigences de **fabrication et de validation de contrats d'intégration** de la cible, pas un second catalogue de messages normatif.
+
+[Version historique intégrale](https://github.com/zdmooc/fis-opf-cloud-native-openshift-reference-architecture/blob/e829ec9229b7f362b02d77e6953d5e02f8c46843/docs/04-donnees/iso20022-et-contrats.md).
 
 ## Matrice de contrats à faire signer
 
